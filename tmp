@@ -1,0 +1,26 @@
+(() => {
+    const WORKING_DIV_ID = '#__WORKING_DIV';
+    const CONTENT_SELECTOR = '.postArticle-content';
+    fetch(location.href)
+    .then(resp => resp.text())
+    .then(text => {
+        let div = document.querySelector(WORKING_DIV_ID);
+        if (div === null) {
+           div = document.createElement(div);
+           div.setAttribute('id', WORKING_DIV_ID)
+           div.style.display = 'none';
+           document.body.appendChild(div); 
+        }
+        div.innerHTML = text;
+        const articleNew = div.querySelector(CONTENT_SELECTOR);
+        const articleCurrent = document.querySelector(CONTENT_SELECTOR);
+        articleCurrent.parentNode.replaceChild(articleNew, articleCurrent);
+        div.remove();
+
+        const overlay = document.querySelector('main.postArticle + aside');
+        if (overlay !== null) {
+            overlay.remove();
+        }
+    })
+})()
+
